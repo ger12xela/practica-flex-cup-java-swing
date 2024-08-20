@@ -37,8 +37,6 @@ public class Editor extends JFrame implements ActionListener {
 	private JMenuItem mINuevo;
 	private JMenuItem mntmAbrir;
 	private JMenuItem mntmGuardar;
-	private JLabel lblLinea;
-	private JLabel lblColumna;
 	private ReporteTokens RT;
 
 	Principal miApp;
@@ -95,14 +93,6 @@ public class Editor extends JFrame implements ActionListener {
 		buttonCompilar.setActionCommand(COMPILAR);
 		buttonCompilar.addActionListener(this);
 		panel.add(buttonCompilar);
-
-		lblLinea = new JLabel("Linea:");
-		lblLinea.setBounds(786, 50, 100, 14);
-		panel.add(lblLinea);
-
-		lblColumna = new JLabel("Columna: ");
-		lblColumna.setBounds(786, 15, 100, 14);
-		panel.add(lblColumna);
 
 		btnReporte = new JButton("Reporte");
 		btnReporte.setBounds(10, 41, 89, 23);

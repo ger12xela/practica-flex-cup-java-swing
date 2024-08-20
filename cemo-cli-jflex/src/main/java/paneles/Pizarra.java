@@ -50,7 +50,6 @@ public class Pizarra extends JPanel {
 
 	public void animar() {
 		if (cantAnima != 0 && turno <= cantAnima) {
-			FiguraGeometrica tmp = null;
 			for (FiguraGeometrica figuraGeometrica : A) {
 
 				if (figuraGeometrica.getOrden() == turno) {
@@ -58,8 +57,8 @@ public class Pizarra extends JPanel {
 					while (figuraGeometrica.isBoolmov()) {
 						figuraGeometrica.mover();
 						try {
-							this.repaint();
-							Thread.sleep(20);
+							this.paint(this.getGraphics());
+							Thread.sleep(50);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -75,10 +74,10 @@ public class Pizarra extends JPanel {
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paint(g);
-		System.out.println("en el paint");
 		if (!A.isEmpty()) {
 			for (FiguraGeometrica figura : A) {
 				figura.dibujar(g);
+				
 			}
 		}
 	}

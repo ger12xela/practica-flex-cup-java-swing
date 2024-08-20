@@ -67,7 +67,6 @@ public class FiguraGeometrica extends Canvas {
 						// derecha
 					} else if (findx == posx) {
 						correctox=true;
-						System.out.println("secompleto x");
 					}
 					//-----------------
 					if (findy < posy) {
@@ -76,7 +75,6 @@ public class FiguraGeometrica extends Canvas {
 						posy++;
 					} else if (findy == posy) {
 						correctoy=true;
-						System.out.println("secompleto y");
 					}
 					
 					if(correctox && correctoy) {

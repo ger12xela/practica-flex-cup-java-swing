@@ -28,24 +28,24 @@ public class Poligono extends FiguraGeometrica {
 		this.cantLados = cantLados;
 		this.ancho = ancho;
 		this.alto = alto;
-		if (cantLados > 2) {
-			radio = alto / 2;
-			p = new Polygon();
-			p.addPoint(posx + radio, posy);
-			for (int i = 1; i < cantLados ; i++) {
-
-					p.addPoint((int) (posx + radio * Math.cos(2 * i * Math.PI / cantLados)),
-							(int) (posy - radio * Math.sin(2 * i * Math.PI / cantLados)));
-
-
-			}
-		}
 	}
 
 	@Override
 	public void dibujar(Graphics g) {
 		// TODO Auto-generated method stub
 		super.dibujar(g);
+		if (cantLados > 2) {
+			radio = alto / 2;
+			p = new Polygon();
+			p.addPoint(posx + radio, posy);
+			for (int i = 1; i < cantLados ; i++) {
+				
+				p.addPoint((int) (posx + radio * Math.cos(2 * i * Math.PI / cantLados)),
+						(int) (posy - radio * Math.sin(2 * i * Math.PI / cantLados)));
+				
+				
+			}
+		}
 		if (p != null) {
 			figura = (Graphics2D)g;
 			figura.setColor(color);

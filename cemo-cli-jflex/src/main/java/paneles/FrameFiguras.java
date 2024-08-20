@@ -30,11 +30,13 @@ public class FrameFiguras extends JFrame implements ActionListener {
 
 	public static final String ANIMAR = "ANIMAR";
 	public static final String EXPORTAR = "EXPORTAR";
+	public static final String EXPORTARPDF = "EXPORTARPDF";
 	private JPanel contentPane;
 
 	private Pizarra pizarra;
 	private JButton btnAnimacion;
 	private JButton btnExportar;
+	private JButton btneExportarPDF;
 
 	/**
 	 * Create the frame.
@@ -66,10 +68,15 @@ public class FrameFiguras extends JFrame implements ActionListener {
 		btnAnimacion.setActionCommand(ANIMAR);
 		panel.add(btnAnimacion);
 
-		btnExportar = new JButton("Exportar");
+		btnExportar = new JButton("Exportar PNG");
 		btnExportar.setActionCommand(EXPORTAR);
 		btnExportar.addActionListener(this);
 		panel.add(btnExportar);
+
+		btneExportarPDF = new JButton("Exportar PDF");
+		btneExportarPDF.setActionCommand(EXPORTARPDF);
+		btneExportarPDF.addActionListener(this);
+		panel.add(btneExportarPDF);
 	}
 
 	@Override
@@ -78,18 +85,9 @@ public class FrameFiguras extends JFrame implements ActionListener {
 			pizarra.contar();
 			pizarra.animar();
 		} else if (e.getActionCommand().equals(EXPORTAR)) {
-			JFileChooser sl = new JFileChooser();
-			if (sl.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 
-				BufferedImage img = new BufferedImage(pizarra.getWidth(), pizarra.getHeight(),
-						BufferedImage.TYPE_INT_RGB);
-				pizarra.paint(img.getGraphics());
-				try {
-					ImageIO.write(img, "png", new File(sl.getSelectedFile().getAbsolutePath()));
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-			}
+			apng();
+		} else if (e.getActionCommand().equals(EXPORTARPDF)) {
 			apdf();
 
 		}
@@ -100,24 +98,42 @@ public class FrameFiguras extends JFrame implements ActionListener {
 	}
 
 	public void apdf() {
-		try {
-        Document document = new Document(PageSize.A1, 50, 50, 50, 50);
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\Gerson Reynoso\\Desktop\\test.pdf"));
-        document.open();
-        PdfContentByte cb = writer.getDirectContent();
-        PdfTemplate tp = cb.createTemplate(1000, 2000);
-        Graphics2D g2 = tp.createGraphics(1000, 2000);
-        pizarra.print(g2);
-        g2.dispose();
-        cb.addTemplate(tp, 5, 60);
-        document.close();
+		JFileChooser sl = new JFileChooser();
+		if (sl.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 
+			try {
+				Document document = new Document(PageSize.A1, 50, 50, 50, 50);
+				PdfWriter writer = PdfWriter.getInstance(document,
+						new FileOutputStream(sl.getSelectedFile().getAbsolutePath()));
+				document.open();
+				PdfContentByte cb = writer.getDirectContent();
+				PdfTemplate tp = cb.createTemplate(1000, 2000);
+				@SuppressWarnings("deprecation")
+				Graphics2D g2 = tp.createGraphics(1000, 2000);
+				pizarra.print(g2);
+				g2.dispose();
+				cb.addTemplate(tp, 5, 60);
+				document.close();
 
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		} 
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+	}
 
+	public void apng() {
+		JFileChooser sl = new JFileChooser();
+		if (sl.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+
+			BufferedImage img = new BufferedImage(pizarra.getWidth(), pizarra.getHeight(), BufferedImage.TYPE_INT_RGB);
+			pizarra.paint(img.getGraphics());
+			try {
+				ImageIO.write(img, "png", new File(sl.getSelectedFile().getAbsolutePath()));
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
 
 	}
 
