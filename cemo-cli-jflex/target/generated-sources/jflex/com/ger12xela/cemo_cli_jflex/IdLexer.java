@@ -4,7 +4,6 @@
 
 package com.ger12xela.cemo_cli_jflex;
 import java_cup.runtime.*;
-import java.io.*;
 import paneles.*;
 
 @SuppressWarnings("fallthrough")
@@ -422,8 +421,7 @@ public class IdLexer implements java_cup.runtime.Scanner {
   /* user code: */
 	ReportesError reportesE;
 	ReporteTokens RT;
-	yyline = 1;
-	yycolumn = 1;
+
 
 	StringBuffer string =new StringBuffer();
 		private Symbol symbol(int type){

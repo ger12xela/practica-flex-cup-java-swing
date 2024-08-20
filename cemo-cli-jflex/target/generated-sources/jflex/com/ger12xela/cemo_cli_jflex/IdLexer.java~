@@ -423,6 +423,7 @@ public class IdLexer implements java_cup.runtime.Scanner {
 	ReportesError reportesE;
 	ReporteTokens RT;
 
+
 	StringBuffer string =new StringBuffer();
 		private Symbol symbol(int type){
 			return new Symbol(type, yyline, yycolumn);
