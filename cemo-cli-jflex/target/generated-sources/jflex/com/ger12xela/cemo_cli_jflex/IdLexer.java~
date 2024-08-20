@@ -926,7 +926,7 @@ public class IdLexer implements java_cup.runtime.Scanner {
           // fall through
           case 43: break;
           case 12:
-            { return symbol(ParserSym.NUMBER, (int)(Double.parseDouble(yytext())))
+            { return symbol(ParserSym.NUMBER, (int)(Double.parseDouble(yytext())));
             }
           // fall through
           case 44: break;
