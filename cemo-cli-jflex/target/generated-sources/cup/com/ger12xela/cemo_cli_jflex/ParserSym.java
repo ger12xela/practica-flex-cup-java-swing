@@ -9,8 +9,8 @@ package com.ger12xela.cemo_cli_jflex;
 public interface ParserSym {
   /* terminals */
   public static final int LINEA = 26;
-  public static final int GRIS = 14;
   public static final int TIMES = 3;
+  public static final int GRIS = 14;
   public static final int PLUS = 2;
   public static final int RPAREN = 7;
   public static final int CURVA = 17;
@@ -18,8 +18,8 @@ public interface ParserSym {
   public static final int BLANCO = 13;
   public static final int CUADRADO = 24;
   public static final int OBJETO = 21;
-  public static final int VERDE = 11;
   public static final int LPAREN = 6;
+  public static final int VERDE = 11;
   public static final int ROJO = 9;
   public static final int GRAFICAR = 19;
   public static final int AMARILLO = 10;
@@ -33,8 +33,8 @@ public interface ParserSym {
   public static final int POLIGONO = 27;
   public static final int error = 1;
   public static final int CIRCULO = 23;
-  public static final int ROSA = 15;
   public static final int AZUL = 8;
+  public static final int ROSA = 15;
   public static final int ANTERIOR = 22;
   public static final int NEGRO = 12;
   public static final int RECTANGULO = 25;

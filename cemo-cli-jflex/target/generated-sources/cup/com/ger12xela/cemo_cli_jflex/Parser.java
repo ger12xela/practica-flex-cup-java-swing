@@ -226,19 +226,14 @@ public class Parser extends java_cup.runtime.lr_parser {
 
 
 
-    /**
-     * Método al que se llama automáticamente ante algún error sintactico.
-     **/ 
+
     public void syntax_error(Symbol s){ 
         System.out.println("Error Sintáctico en la Línea " + (s.left) +
         " Columna "+ (s.right+1) + ". No se esperaba este componente: " +s.value+"."); 
 		reportesE.agregarES(new ErrorToken((String)s.value,"sintactico","no se esperaba el lexema ",s.left,s.right));
 		
     } 
-    /**
-     * Método al que se llama cuando se identifica un error sintáctico en el que 
-     * ya no es posible una recuperación de errores.
-     **/ 
+
     public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
         System.out.println("Error síntactico irrecuperable en la Línea " + 
         (s.left)+ " Columna "+s.right+". Componente " + s.value + " no reconocido."); 

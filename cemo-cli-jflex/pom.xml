@@ -20,6 +20,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.13.4</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.github.vbmacher</groupId>
 			<artifactId>java-cup-runtime</artifactId>
 			<version>11b-20160615-1</version>

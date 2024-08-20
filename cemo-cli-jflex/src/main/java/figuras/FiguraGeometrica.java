@@ -36,7 +36,7 @@ public class FiguraGeometrica extends Canvas {
 		
 	}
 
-	int findx, findy, orden =0;
+	int findx, findy, orden ;
 	boolean boolmov = false;
 	String mov;
 	/**
@@ -55,13 +55,11 @@ public class FiguraGeometrica extends Canvas {
 	public void mover() {
 
 		if (boolmov) {
-			System.out.println("paint");
+			
+			boolean correctox=false;
+			boolean correctoy=false;
 
-			while ((posx != findx) && (posy != findy)) {
-
-				boolean correctox=false ;
-				boolean correctoy=false;
-				if (mov.equals("linea")) {
+				
 					if (findx < posx) {
 						posx--;
 					} else if (findx > posx) {
@@ -69,6 +67,7 @@ public class FiguraGeometrica extends Canvas {
 						// derecha
 					} else if (findx == posx) {
 						correctox=true;
+						System.out.println("secompleto x");
 					}
 					//-----------------
 					if (findy < posy) {
@@ -77,18 +76,16 @@ public class FiguraGeometrica extends Canvas {
 						posy++;
 					} else if (findy == posy) {
 						correctoy=true;
+						System.out.println("secompleto y");
 					}
 					
-					if(correctox==true && correctoy==true) {
+					if(correctox && correctoy) {
 						boolmov=false;
 					}
 					
-				} else {
-
-				}
 			}
 
-		}
+		
 	}
 
 	/**

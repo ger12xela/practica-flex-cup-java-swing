@@ -2,6 +2,7 @@ package paneles;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import com.ger12xela.cemo_cli_jflex.Principal;
@@ -46,6 +47,8 @@ public class Editor extends JFrame implements ActionListener {
 	public Editor(Principal principal) {
 		this();
 		this.miApp = principal;
+		NumeroLinea n = new NumeroLinea(textEditor);
+		scrollPane1.setRowHeaderView(n);
 	}
 
 	boolean sinError = false;
@@ -82,9 +85,6 @@ public class Editor extends JFrame implements ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		textEditor = new JTextArea();
-		contentPane.add(textEditor, BorderLayout.CENTER);
-
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(10, 75));
 		contentPane.add(panel, BorderLayout.SOUTH);
@@ -109,6 +109,12 @@ public class Editor extends JFrame implements ActionListener {
 		btnReporte.setActionCommand(REPORTE);
 		btnReporte.addActionListener(this);
 		panel.add(btnReporte);
+		
+		scrollPane1 = new JScrollPane();
+		contentPane.add(scrollPane1, BorderLayout.CENTER);
+		
+				textEditor = new JTextArea();
+				scrollPane1.setViewportView(textEditor);
 	}
 
 	public JTextArea getTextEditor() {
@@ -117,6 +123,7 @@ public class Editor extends JFrame implements ActionListener {
 
 	private Archivo archivo = null;
 	private JFileChooser openFile;
+	private JScrollPane scrollPane1;
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -202,5 +209,4 @@ public class Editor extends JFrame implements ActionListener {
 	public void setSinError(boolean sinError) {
 		this.sinError = sinError;
 	}
-
 }

@@ -121,8 +121,10 @@ idnombre = {letter}+[-*_*{digit}*{letter}*]*
 								}
 
 	/*otros no keywords*/
+
 	{idnombre}				{return symbol(ParserSym.NOMBRE, yytext());}
 
+	{digit}+\.{digit}+		{return symbol(ParserSym.NUMBER, (int)(Double.parseDouble(yytext())));}
 	{digit}+				{return symbol(ParserSym.NUMBER, Integer.valueOf(yytext()));}
 	"("						{return symbol(ParserSym.LPAREN, yytext());}
 	")"						{return symbol(ParserSym.RPAREN, yytext());}

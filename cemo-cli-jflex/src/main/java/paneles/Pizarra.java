@@ -17,7 +17,7 @@ public class Pizarra extends JPanel {
 	ArrayList<FiguraGeometrica> A = new ArrayList<FiguraGeometrica>();
 
 	public Pizarra() {
-		setPreferredSize(new Dimension(2000, 2000));
+		setPreferredSize(new Dimension(1000, 2000));
 	}
 
 	public void agregarFigura(FiguraGeometrica a) {
@@ -32,6 +32,7 @@ public class Pizarra extends JPanel {
 	 */
 	public FiguraGeometrica getFigura() {
 		return A.getLast();
+
 	}
 
 	int cantAnima = 0;
@@ -45,26 +46,26 @@ public class Pizarra extends JPanel {
 		}
 	}
 
-	int turno = 0;
+	int turno = 1;
 
 	public void animar() {
 		if (cantAnima != 0 && turno <= cantAnima) {
 			FiguraGeometrica tmp = null;
 			for (FiguraGeometrica figuraGeometrica : A) {
-				if (figuraGeometrica.getOrden() == turno) {
-					tmp = figuraGeometrica;
-					figuraGeometrica.setBoolmov(true);
-				}
-			}
-			turno++;
-			while (tmp.isBoolmov()) {
 
-				this.repaint();
-				try {
-					Thread.sleep(20);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if (figuraGeometrica.getOrden() == turno) {
+					figuraGeometrica.setBoolmov(true);
+					while (figuraGeometrica.isBoolmov()) {
+						figuraGeometrica.mover();
+						try {
+							this.repaint();
+							Thread.sleep(20);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					turno++;
 				}
 			}
 		}
@@ -74,10 +75,10 @@ public class Pizarra extends JPanel {
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
 		super.paint(g);
+		System.out.println("en el paint");
 		if (!A.isEmpty()) {
 			for (FiguraGeometrica figura : A) {
 				figura.dibujar(g);
-				figura.mover();
 			}
 		}
 	}
