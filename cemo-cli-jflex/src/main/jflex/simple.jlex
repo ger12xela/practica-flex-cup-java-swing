@@ -18,6 +18,8 @@ idnombre = {letter}+[-*_*{digit}*{letter}*]*
 %{
 	ReportesError reportesE;
 	ReporteTokens RT;
+	yyline = 1;
+	yycolumn = 1;
 
 	StringBuffer string =new StringBuffer();
 		private Symbol symbol(int type){

@@ -422,6 +422,8 @@ public class IdLexer implements java_cup.runtime.Scanner {
   /* user code: */
 	ReportesError reportesE;
 	ReporteTokens RT;
+	yyline = 1;
+	yycolumn = 1;
 
 	StringBuffer string =new StringBuffer();
 		private Symbol symbol(int type){
