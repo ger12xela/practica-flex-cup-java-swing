@@ -1,0 +1,154 @@
+package com.ger12xela.cemo_cli_jflex;
+import java_cup.runtime.*;
+import java.io.*;
+import paneles.*;
+%%
+%public 
+%class IdLexer
+%line
+%column
+%cup
+%ignorecase
+
+digit = [0-9]
+letter = [a-zA-Z]
+whitspace = [ \t\r\n]+
+idnombre = {letter}+[-*_*{digit}*{letter}*]*
+
+%{
+	ReportesError reportesE;
+	ReporteTokens RT;
+
+	StringBuffer string =new StringBuffer();
+		private Symbol symbol(int type){
+			return new Symbol(type, yyline, yycolumn);
+		} 
+	
+		private Symbol symbol(int type, Object value){
+			return new Symbol(type, yyline, yycolumn, value);
+		} 
+
+ 		public IdLexer(java.io.Reader in, ReportesError e,ReporteTokens b) {
+    		this.zzReader = in;
+			this.reportesE = e;
+			this.RT = b;
+  		}
+	
+%}
+
+
+%eofval{
+	return symbol(ParserSym.EOF);
+	/*hacer algo al final del archivo*/
+%eofval}
+
+%%
+	
+	","						{return symbol(ParserSym.COMA, yytext());}	
+	/*keywords*/
+	"azul"					{
+		RT.sumTipo(new Token(yytext(),"azul",yyline,yycolumn));
+		return symbol(ParserSym.AZUL, yytext());
+							}	
+	"Rojo"					{
+		RT.sumTipo(new Token(yytext(),"rojo",yyline,yycolumn));
+		return symbol(ParserSym.ROJO, yytext());
+							}
+	"amarillo"				{
+		RT.sumTipo(new Token(yytext(),"amarillo",yyline,yycolumn));
+		return symbol(ParserSym.AMARILLO, yytext());
+								}
+	"verde"					{
+		RT.sumTipo(new Token(yytext(),"verde",yyline,yycolumn));
+		return symbol(ParserSym.VERDE, yytext());
+								}
+	/*keywords colores propios*/
+	"negro"					{
+		RT.sumTipo(new Token(yytext(),"negro",yyline,yycolumn));
+		return symbol(ParserSym.NEGRO, yytext());
+								}
+	"blanco"				{
+		RT.sumTipo(new Token(yytext(),"blanco",yyline,yycolumn));
+		return symbol(ParserSym.BLANCO, yytext());
+								}
+	"gris"					{
+		RT.sumTipo(new Token(yytext(),"gris",yyline,yycolumn));
+		return symbol(ParserSym.GRIS, yytext());
+								}
+	"rosa"					{
+		RT.sumTipo(new Token(yytext(),"rosa",yyline,yycolumn));
+		return symbol(ParserSym.ROSA, yytext());
+								}
+	"naraja"				{
+		RT.sumTipo(new Token(yytext(),"naranja",yyline,yycolumn));
+		return symbol(ParserSym.NARANJA, yytext());
+								}
+
+	/*keywords animacion*/
+	"curva"					{RT.sumTipo(new Token(yytext(),"curva",yyline,yycolumn));
+								return symbol(ParserSym.CURVA, yytext());
+								}
+	"línea"					{
+		RT.sumTipo(new Token(yytext(),"lineaG",yyline,yycolumn));
+		return symbol(ParserSym.LINEAG, yytext());
+								}	
+	/*kerwords totales */
+	"graficar"				{return symbol(ParserSym.GRAFICAR, yytext());}
+	"animar" 				{return symbol(ParserSym.ANIMAR, yytext());}
+	"objeto" 				{return symbol(ParserSym.OBJETO, yytext());}
+	"anterior" 				{return symbol(ParserSym.ANTERIOR, yytext());}
+
+	/*kerwords de figuras*/
+	"circulo"				{
+		RT.sumTipo(new Token(yytext(),"circulo",yyline,yycolumn));
+		return symbol(ParserSym.CIRCULO, yytext());
+							}
+	"cuadrado"				{
+		RT.sumTipo(new Token(yytext(),"cuadrado",yyline,yycolumn));
+		return symbol(ParserSym.CUADRADO, yytext());
+								}
+	"rectangulo"			{
+		RT.sumTipo(new Token(yytext(),"rectangulo",yyline,yycolumn));
+		return symbol(ParserSym.RECTANGULO, yytext());
+								}
+	"linea"					{
+		RT.sumTipo(new Token(yytext(),"linea",yyline,yycolumn));
+		return symbol(ParserSym.LINEA, yytext());
+								}
+	"poligono"				{
+		RT.sumTipo(new Token(yytext(),"poligono",yyline,yycolumn));
+		return symbol(ParserSym.POLIGONO, yytext());
+								}
+
+	/*otros no keywords*/
+	{idnombre}				{return symbol(ParserSym.NOMBRE, yytext());}
+
+	{digit}+				{return symbol(ParserSym.NUMBER, Integer.valueOf(yytext()));}
+	"("						{return symbol(ParserSym.LPAREN, yytext());}
+	")"						{return symbol(ParserSym.RPAREN, yytext());}
+	"-"						{
+		RT.addMatematicos(new Token(yytext(),"Resta",yyline,yycolumn));
+		return symbol(ParserSym.MINUS, yytext());
+							}
+	"+"						{
+		RT.addMatematicos(new Token(yytext(),"Suma",yyline,yycolumn));
+		return symbol(ParserSym.PLUS, yytext());
+							}
+	"*"						{
+		RT.addMatematicos(new Token(yytext(),"Moltiplicacion",yyline,yycolumn));
+		return symbol(ParserSym.TIMES, yytext());
+							}
+	"/"						{
+		RT.addMatematicos(new Token(yytext(),"Divicion",yyline,yycolumn));
+		return symbol(ParserSym.DIV, yytext());
+							}
+	{whitspace}+			{}
+	[^]						{reportesE.agregarEL(new ErrorToken(yytext(),"lexico","no se reconoce el caracter",yyline,yycolumn));
+							System.out.println("caracter no reconocido--> "+yytext());}
+
+// {letter}({letter}|{digit})* {return new Token(TokenConstants.ID, yytext());}
+// {digit}+ 					{return new Token(TokenConstants.NUM, yytext());}
+// {whitspace}+				{}
+// {newline}+				{}
+// [^]							{ throw new java.io.IOException("la cadena es ilegal");}
+

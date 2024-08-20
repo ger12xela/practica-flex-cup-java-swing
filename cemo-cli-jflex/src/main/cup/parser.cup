@@ -1,0 +1,114 @@
+package com.ger12xela.cemo_cli_jflex;
+import java_cup.runtime.*;
+import paneles.*;
+import figuras.*;
+import java.awt.Color;
+
+class Parser;
+
+parser code
+{:
+    /**
+     * Método al que se llama automáticamente ante algún error sintactico.
+     **/ 
+    public void syntax_error(Symbol s){ 
+        System.out.println("Error Sintáctico en la Línea " + (s.left) +
+        " Columna "+ (s.right+1) + ". No se esperaba este componente: " +s.value+"."); 
+		reportesE.agregarES(new ErrorToken((String)s.value,"sintactico","no se esperaba el lexema ",s.left,s.right));
+		
+    } 
+    /**
+     * Método al que se llama cuando se identifica un error sintáctico en el que 
+     * ya no es posible una recuperación de errores.
+     **/ 
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error síntactico irrecuperable en la Línea " + 
+        (s.left)+ " Columna "+s.right+". Componente " + s.value + " no reconocido."); 
+    } 
+    
+    Pizarra pizarra;
+	ReportesError reportesE;
+	public void setReporteError(ReportesError e){
+		this.reportesE = e;
+	}
+    
+    public void setPizarra(Pizarra p){
+    this.pizarra = p;
+    }
+
+
+:}
+
+terminal PLUS, TIMES, MINUS, DIV, LPAREN, RPAREN
+,AZUL, ROJO, AMARILLO, VERDE, NEGRO, BLANCO, GRIS, ROSA, NARANJA
+, CURVA, LINEAG
+,GRAFICAR, ANIMAR , OBJETO, ANTERIOR
+,CIRCULO, CUADRADO, RECTANGULO, LINEA, POLIGONO
+,COMA;
+
+terminal String NOMBRE;
+terminal Integer NUMBER;
+
+
+non terminal Integer expr;
+non terminal ini;
+non terminal anima;
+non terminal String tipo;
+non terminal instrucciones;
+non terminal instruccion;
+non terminal Color color;
+non terminal forma;
+
+
+precedence left PLUS;
+precedence left MINUS;
+precedence left TIMES;
+precedence left DIV;
+
+start with ini;
+
+ini ::=instrucciones;
+
+instrucciones ::= instruccion
+		|error instrucciones;	
+
+instruccion ::= GRAFICAR forma instruccion  {: System.out.println("graficare");:} 
+		|ANIMAR OBJETO ANTERIOR anima instruccion {: System.out.println("animare");:}
+		| 
+		;
+
+anima ::= LPAREN tipo:e0 COMA expr:e1 COMA expr:e2 COMA expr:e3 RPAREN {:
+				if(pizarra.getFigura() != null){
+					pizarra.getFigura().activarMov(e1, e2, e3, e0);
+				}
+			:}
+		;
+
+tipo ::= CURVA  {:RESULT = "curva";:}
+		|LINEAG {:RESULT = "linea";:}
+		;
+
+forma ::= CIRCULO LPAREN NOMBRE:e0 COMA expr:e1 COMA expr:e2 COMA expr:e3 COMA color:e4 RPAREN 					{:pizarra.agregarFigura(new Circulo(e0, e1, e2, e4, e3));:}
+		|CUADRADO LPAREN NOMBRE:e0 COMA expr:e1 COMA expr:e2 COMA expr:e3 COMA color:e4 RPAREN 					{:pizarra.agregarFigura(new Cuadrado(e0, e1, e2, e4, e3));:}
+		|RECTANGULO LPAREN NOMBRE:e0 COMA expr:e1 COMA expr:e2 COMA expr:e3 COMA expr:e4 COMA color:e5 RPAREN	{:pizarra.agregarFigura(new Rectangulo(e0, e1, e2, e5, e3, e4));:}
+		|LINEA LPAREN NOMBRE:e0 COMA expr:e1 COMA expr:e2 COMA expr:e3 COMA expr:e4 COMA color:e5 RPAREN	{:pizarra.agregarFigura(new Linea(e0, e1, e2, e5, e3, e4));:}
+		|POLIGONO LPAREN NOMBRE:e0 COMA expr:e1 COMA expr:e2 COMA expr:e3 COMA expr:e4 COMA expr:e5 COMA color:e6 RPAREN		{:pizarra.agregarFigura(new Poligono(e0, e1, e2, e6, e3, e4,e5));:}
+		;
+
+color ::= AZUL 			{:RESULT = Color.blue;:}
+		| ROJO			{:RESULT = Color.red;:}
+		| AMARILLO		{:RESULT = Color.yellow;:}
+		| VERDE			{:RESULT = Color.green;:}
+		| NEGRO			{:RESULT = Color.black;:}
+		| BLANCO		{:RESULT = Color.white;:}
+		| GRIS			{:RESULT = Color.gray;:}
+		| ROSA			{:RESULT = Color.pink;:}
+		| NARANJA		{:RESULT = Color.orange;:}
+		;
+
+expr ::= expr:e1 PLUS expr:e2		{:RESULT  = e1+e2; :}
+		|expr:e1 MINUS expr:e2		{:RESULT  = e1-e2; :}
+		|expr:e1 TIMES expr:e2		{:RESULT  = e1*e2; :}
+		|expr:e1 DIV expr:e2		{:RESULT  = e1/e2; :}
+		|LPAREN expr:e RPAREN		{:RESULT  =  e; :}
+		|NUMBER:n  					{:RESULT  = n; :};
